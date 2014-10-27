@@ -1,0 +1,30 @@
+<meta>
+	<info name="The Sims MTA" type="gamemode" version="1.0.0" author="William DA SILVA"/>
+
+	<!-- Files -->
+	<file src="client/files/logo.png"/>
+	<file src="client/files/progress-right.png"/>
+	<file src="client/files/progress-left.png"/>
+	<file src="client/files/progress-center.png"/>
+	<file src="client/files/progress-back-right.png"/>
+	<file src="client/files/progress-back-left.png"/>
+	<file src="client/files/rectangle-bottom-left.png"/>
+	<file src="client/files/rectangle-bottom-right.png"/>
+	<file src="client/files/rectangle-top-left.png"/>
+	<file src="client/files/rectangle-top-right.png"/>
+	<file src="client/files/lights.png"/>
+
+	<file src="client/files/sounds/theme.ogg"/>
+
+
+	<!-- Client side -->
+	<script src="client/interface/login.lua" type="client"></script>
+	<script src="client/interface/downloading.lua" type="client"></script>
+	<script src="client/interface/UI.lua" type="client"></script>
+	<script src="client/main.lua" type="client"></script>
+	
+	<!-- Server side -->
+	<script src="server/main.lua" type="server"></script>
+	<script src="server/downloading.lua" type="server"></script>
+	
+</meta>
