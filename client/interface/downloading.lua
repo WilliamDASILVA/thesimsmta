@@ -29,7 +29,9 @@ Downloading.files = {
 	"progress-left.png",
 	"progress-right.png",
 	"ui-alu.png",
+	"ui-circle.png",
 	"ui-button.png",
+	"sample.png",
 	"rectangle-bottom-left.png",
 	"rectangle-bottom-right.png",
 	"rectangle-top-left.png",
@@ -51,7 +53,9 @@ Downloading.elements.light = {}
 Downloading.elements.light.rotation = 0;
 Downloading.elements.text = {}
 Downloading.elements.text.content = "Veuillez attendre la fin du téléchargement...";
+Downloading.elements.text.alpha = 255;
 
+Downloading.rendering = true;
 
 --[[
 			[function] Downloading.init()
@@ -152,11 +156,27 @@ end
 ]]
 function Downloading.finish()
 	if Downloading.progression == 100 then
-		Downloading.text = "Téléchargement terminé.";
+		Downloading.elements.text.content = "Téléchargement terminé.";
 
+		setTimer(function()
+			Downloading.alphaTimer = setTimer(Downloading.alphaChange, 50,0);
+		end, 2000,1);
 
 	else
 		return false;
+	end
+end
+
+function Downloading.alphaChange()
+	if(Downloading.elements.box.alpha == 0)then
+		killTimer(Downloading.alphaTimer);
+		Downloading.rendering = false;
+		Login.init();
+	else
+		Downloading.elements.box.alpha = Downloading.elements.box.alpha-15;
+		Downloading.elements.progress.alpha = Downloading.elements.progress.alpha-15;
+		Downloading.elements.text.alpha = Downloading.elements.text.alpha-15;
+
 	end
 end
 
@@ -179,13 +199,14 @@ function Downloading.render()
 		-- logo
 		dxDrawImage(0.5*screenX-(0.352*screenX/2), 0.05*screenY, 0.352*screenX, 0.26*screenX, "client/files/logo.png", 0,0,0, tocolor(255,255,255,255));
 
-		-- box
-		UI.radiusRectangle(0.5*screenX-(0.7*screenX/2), 0.7*screenY, 0.7*screenX, 0.15*screenX, Downloading.elements.box.alpha);
-		-- bar
-		UI.progressBar(0.5*screenX-(0.68*screenX/2), 0.8*screenY, 0.68*screenX, 0.06*screenX, Downloading.progression, Downloading.elements.progress.alpha);
-		-- text
-		dxDrawText(Downloading.elements.text.content, 0.5*screenX-(0.66*screenX/2), 0.73*screenY, 0,0, tocolor(255,255,255,255), 1.5);
-
+		if(Downloading.rendering)then
+			-- box
+			UI.radiusRectangle(0.5*screenX-(0.7*screenX/2), 0.7*screenY, 0.7*screenX, 0.15*screenX, Downloading.elements.box.alpha);
+			-- bar
+			UI.progressBar(0.5*screenX-(0.68*screenX/2), 0.8*screenY, 0.68*screenX, 0.06*screenX, Downloading.progression, Downloading.elements.progress.alpha);
+			-- text
+			dxDrawText(Downloading.elements.text.content, 0.5*screenX-(0.66*screenX/2), 0.73*screenY, 0,0, tocolor(255,255,255,Downloading.elements.text.alpha), 1.5);
+		end
 
 	end
 end
