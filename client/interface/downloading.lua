@@ -55,6 +55,10 @@ Downloading.elements.text = {}
 Downloading.elements.text.content = "Veuillez attendre la fin du téléchargement...";
 Downloading.elements.text.alpha = 255;
 
+Downloading.elements.camera = {}
+Downloading.elements.camera.x = -2705;
+Downloading.elements.camera.y = 1367;
+
 Downloading.rendering = true;
 
 --[[
@@ -68,7 +72,6 @@ function Downloading.init()
 	Downloading.doDownload();
 
 	fadeCamera(true);
-	setCameraMatrix(-2705,1367,68,-2662,1518,84);
 	setWeather(14);
 	setTimer(setTime, 1000, 0, 20, 0);
 	setPlayerHudComponentVisible ("all", false);
@@ -207,6 +210,10 @@ function Downloading.render()
 			-- text
 			dxDrawText(Downloading.elements.text.content, 0.5*screenX-(0.66*screenX/2), 0.73*screenY, 0,0, tocolor(255,255,255,Downloading.elements.text.alpha), 1.5);
 		end
+
+		Downloading.elements.camera.x = Downloading.elements.camera.x+(0.5/2);
+		Downloading.elements.camera.y = Downloading.elements.camera.y-(0.15/4);
+		setCameraMatrix(Downloading.elements.camera.x,Downloading.elements.camera.y,68,-2662,1518,84);
 
 	end
 end

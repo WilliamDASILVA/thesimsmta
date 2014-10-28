@@ -73,17 +73,23 @@ end
 	
 			Return: nill
 ]]
-function UI.input(x, y, width, height, text, check, alpha)
+function UI.input(x, y, width, height, text, alpha, options)
 	if x and y and width and height and text then
 
 		-- background
 		dxDrawRectangle(x, y, width, height, tocolor(237,237,237,alpha));
 		-- text
-		dxDrawText(text, x+5, y+5, x+width-10, y+height-10, tocolor(0,109,180, alpha), 1.2, "arial", "left", "center", true);
-		if check then
-			local check_image = "check_ok.png";
-		elseif check == false then
-			local check_image = "check_no.png";
+		dxDrawText(text, x+10, y, (x+10)+width, y+height, tocolor(0,109,180, alpha), 1.2, "arial", "left", "center");
+
+		-- options
+		if options then
+			if options['focus'] then
+				dxDrawRectangle(x, y, 5, height, tocolor(150,200,50, alpha));
+			elseif options['check'] == true then
+				check_image = "check_ok.png";
+			elseif options['check'] == false then
+				check_image = "check_no.png";
+			end
 		end
 
 		if check_image then

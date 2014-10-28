@@ -19,14 +19,14 @@ function Client.join()
 	--[[
 		Demarre le téléchargement des fichiers necessaires
 	]]
-	--Downloading.init();
-	Login.init();
+	Downloading.init();
+	--Login.init();
 
 	--[[
 		Demarre le theme
 	]]
-	local theme = playSound("client/files/sounds/theme.ogg", true);
-	setSoundVolume(theme, 0.5);
+	--local theme = playSound("client/files/sounds/theme.ogg", true);
+	--setSoundVolume(theme, 0.5);
 
 
 end
