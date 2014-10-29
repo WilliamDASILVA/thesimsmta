@@ -18,7 +18,10 @@ function Login.callBack(result, player)
 			Login.doError(result['error'], player);
 		else
 			if(result['success'] == "ok")then
-				outputChatBox(result['data']['password']);
+				if(getElementType(player) == "player")then
+					setElementData(player, "userdata", result['data']);
+					Login.doSuccess(player);
+				end
 			else
 				Login.doError("Auth. server problem", player)
 			end
@@ -37,6 +40,7 @@ end
 ]]
 function Login.doLogin(email, password)
 	if email and password then
+		outputChatBox("Email:"..email..' -'.." Password:"..password)
 		callRemote("http://127.0.0.1/perso/thesimsmta/api/getUserInformations", Login.callBack, client, email, password);
 	else
 		return false;
@@ -55,6 +59,20 @@ function Login.doError(message, player)
 		triggerClientEvent(player, "Login.doError", player, message);
 	else
 		return false;
+	end
+end
+
+--[[
+			[function] Login.doSuccess(element player)
+	
+			* Utilisateur connecté, on ferme *
+	
+			Return: nil
+]]
+function Login.doSuccess(player)
+	if player then
+		outputChatBox("DONE");
+		triggerClientEvent(player, "Login.doSuccess", player);
 	end
 end
 

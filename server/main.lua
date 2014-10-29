@@ -6,6 +6,10 @@
 
 Server = {}
 
+for i, v in pairs(getElementsByType("player"))do
+	outputDebugString("TEST..."..getPlayerName(v));
+	spawnPlayer(v, 0,0,10);
+end
 
 --[[
 			[function] Server.playerJoin()
@@ -15,7 +19,6 @@ Server = {}
 ]]
 function Server.playerJoin()
 	if source then
-		
 	end
 end
 

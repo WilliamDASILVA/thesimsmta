@@ -48,6 +48,7 @@ Login.elements.button.y = Login.elements.background.y + 0.1*Login.elements.backg
 Login.elements.button.w = 0.15*screenX;
 Login.elements.button.h = 50;
 Login.elements.button.alpha = 255;
+Login.elements.button.disabled = false;
 Login.elements.button.options = {}
 --[[
 	ErrorDiv
@@ -60,6 +61,17 @@ Login.elements.errorDiv.height = 0.2*screenY;
 Login.elements.errorDiv.alpha = 255;
 Login.elements.errorDiv.visible = false;
 Login.elements.errorDiv.text = "";
+--[[
+	Loading
+]]
+Login.elements.loading = {}
+Login.elements.loading.x = Login.elements.background.x + 0.5*Login.elements.background.x;
+Login.elements.loading.y = Login.elements.background.y + 0.1*Login.elements.background.y;
+Login.elements.loading.w = 100;
+Login.elements.loading.h = 100;
+Login.elements.loading.rotation = 360;
+Login.elements.loading.alpha = 255;
+Login.elements.loading.enabled = false;
 
 Login.elements.inputs = {}
 Login.elements.inputs.email = {}
@@ -108,9 +120,9 @@ function Login.render()
 		]]
 		if Login.elements.errorDiv.visible then
 			if Login.elements.errorDiv.opening then
-				aX, aY = Misc.interpolateBetween(Login.elements.errorDiv.x, Login.elements.errorDiv.y, Login.elements.errorDiv.x, Login.elements.errorDiv.y-0.07*screenX, Login.elements.errorDiv.startTick, 2000, "OutBounce");
+				aX, aY = Misc.interpolateBetween(Login.elements.errorDiv.x, Login.elements.errorDiv.y, 0,Login.elements.errorDiv.x, Login.elements.errorDiv.y-0.07*screenX,0, Login.elements.errorDiv.startTick, 2000, "OutBounce");
 			else
-				aX, aY = Misc.interpolateBetween(Login.elements.errorDiv.x, Login.elements.errorDiv.y-0.07*screenX, Login.elements.errorDiv.x, Login.elements.errorDiv.y, Login.elements.errorDiv.startTick, 2000, "OutBounce");
+				aX, aY = Misc.interpolateBetween(Login.elements.errorDiv.x, Login.elements.errorDiv.y-0.07*screenX, 0,Login.elements.errorDiv.x, Login.elements.errorDiv.y,0, Login.elements.errorDiv.startTick, 2000, "OutBounce");
 			end
 
 			UI.radiusRectangle(aX, aY, Login.elements.errorDiv.width, Login.elements.errorDiv.height, Login.elements.errorDiv.alpha);
@@ -124,9 +136,6 @@ function Login.render()
 		]]
 		-- background
 		dxDrawRectangle(Login.elements.background.x, Login.elements.background.y, screenX, 0.18*screenX, tocolor(0,109,180,Login.elements.background.alpha));
-		--circle
-		dxDrawImage(Login.elements.circle.x, Login.elements.circle.y, 0.18*screenX, 0.18*screenX, "client/files/ui-circle.png", 0,0,0,tocolor(255,255,255, Login.elements.circle.alpha));
-		dxDrawImage(Login.elements.circle.x+10, Login.elements.circle.y+10, 0.18*screenX-20, 0.18*screenX-20, "client/files/sample.png", 0,0,0,tocolor(255,255,255,Login.elements.circle.alpha));
 		-- input
 		dxDrawText("Adresse email:", Login.elements.emailText.x, Login.elements.emailText.y, 0.3*screenX, 0.03*screenX, tocolor(255,255,255,Login.elements.emailText.alpha), 1.4);
 		UI.input(Login.elements.emailInput.x, Login.elements.emailInput.y, Login.elements.emailInput.width, Login.elements.emailInput.height, Login.elements.emailInput.content, Login.elements.emailInput.alpha, Login.elements.emailInput.options);
@@ -137,6 +146,29 @@ function Login.render()
 
 		UI.normalButton(Login.elements.button.x, Login.elements.button.y, Login.elements.button.w, Login.elements.button.h, "Connexion", Login.elements.button.alpha, Login.elements.button.options);
 		dxDrawText("Register on thesimsmta.com", Login.elements.button.x, Login.elements.button.y+Login.elements.button.h+10, Login.elements.button.x+Login.elements.button.w, (Login.elements.button.y+Login.elements.button.h+10)*2, tocolor(255,255,255,255));
+
+		-- waiting
+		if(Login.elements.loading.enabled)then
+			local rectAlpha = 150;
+			if Login.elements.loading.opening then
+				Login.elements.loading.alpha, _ = Misc.interpolateBetween(0,0,0,255,0,0,Login.elements.loading.startTick, 1000, "InQuad");
+				rectAlpha, _ = Misc.interpolateBetween(0,0,0,150,0,0,Login.elements.loading.startTick, 1000, "InQuad");
+			else
+				Login.elements.loading.alpha, _ = Misc.interpolateBetween(255,0,0,0,0,0,Login.elements.loading.startTick, 1000, "InQuad");
+				rectAlpha, _ = Misc.interpolateBetween(150,0,0,0,0,0,Login.elements.loading.startTick, 1000, "InQuad");
+			end
+			dxDrawRectangle(Login.elements.background.x, Login.elements.background.y, screenX, 0.18*screenX, tocolor(0,109,180,rectAlpha));
+
+			if(Login.elements.loading.rotation <= 0)then
+				Login.elements.loading.rotation = 360;
+			end
+			Login.elements.loading.rotation = Login.elements.loading.rotation - 15;
+			dxDrawImage(Login.elements.loading.x, Login.elements.loading.y, Login.elements.loading.w, Login.elements.loading.h, "client/files/loading.png", Login.elements.loading.rotation,0,0, tocolor(255,255,255,Login.elements.loading.alpha));
+		end
+
+		--circle & avatar
+		dxDrawImage(Login.elements.circle.x, Login.elements.circle.y, 0.18*screenX, 0.18*screenX, "client/files/ui-circle.png", 0,0,0,tocolor(255,255,255, Login.elements.circle.alpha));
+		dxDrawImage(Login.elements.circle.x+10, Login.elements.circle.y+10, 0.18*screenX-20, 0.18*screenX-20, "client/files/sample.png", 0,0,0,tocolor(255,255,255,Login.elements.circle.alpha));
 	end
 end
 
@@ -188,7 +220,10 @@ function Login.click(button, state, x, y)
 		-- buttons
 		for i, v in pairs(Login.elements.buttons)do
 			if(x >= v.element.x and x <= v.element.x + v.element.w and y >= v.element.y and y <= v.element.y + v.element.h)then
-				_G[v.functionToCall]();
+				if not v.element.disabled then
+					_G[v.functionToCall]();
+					v.element.disabled = true;
+				end
 			end
 		end
 
@@ -264,6 +299,9 @@ function Login.onKey(button, pressOrRelease)
 		if v.gotFocus then
 			if button == "backspace" and pressOrRelease then
 				v.element.content = string.sub(v.element.content, 0, string.len(v.element.content)-1);
+				if v.element.value then
+					v.element.value = string.sub(v.element.value, 0, string.len(v.element.value)-1);
+				end
 				if Login.backspaceTtimer == nil then
 					Login.backspaceTtimer = setTimer(function()
 						if getKeyState("backspace") then
@@ -285,6 +323,9 @@ function Login.backspace()
 		for i, v in pairs(Login.elements.inputs)do
 			if v.gotFocus then
 				v.element.content = string.sub(v.element.content, 0, string.len(v.element.content)-1);
+				if v.element.value then
+					v.element.value = string.sub(v.element.value, 0, string.len(v.element.value)-1);
+				end
 			end
 		end
 	else
@@ -304,6 +345,9 @@ end
 ]]
 function Login_doLogin()
 	if Login.elements.emailInput.content and Login.elements.passwordInput.value then
+		Login.elements.loading.enabled = true;
+		Login.elements.loading.startTick = getTickCount();
+		Login.elements.loading.opening = true;
 		triggerServerEvent("Login.doLogin", getLocalPlayer(), Login.elements.emailInput.content, Login.elements.passwordInput.value);
 	end
 end
@@ -317,6 +361,17 @@ end
 ]]
 function Login.doError(error)
 	if error then
+		-- got something
+		for i, v in pairs(Login.elements.buttons)do
+			if v.element.disabled then
+				v.element.disabled = false;
+			end
+		end
+		-- disable loading
+		Login.elements.loading.enabled = false;
+		Login.elements.loading.startTick = getTickCount();
+		Login.elements.loading.opening = false;
+
 		Login.elements.errorDiv.startTick = getTickCount();
 		Login.elements.errorDiv.text = error;
 		Login.elements.errorDiv.visible = true;
@@ -329,7 +384,25 @@ function Login.doError(error)
 end
 
 --[[
+			[function] Login.doSuccess()
+	
+			* Met fin au panneau de connexion *
+	
+			Return: nil
+]]
+function Login.doSuccess()
+	-- disable loading
+	Login.elements.loading.enabled = false;
+	Login.elements.loading.startTick = getTickCount();
+	Login.elements.loading.opening = false;
+
+
+end
+
+--[[
 	Event Handlers
 ]]
 addEvent("Login.doError", true);
+addEvent("Login.doSuccess", true);
+addEventHandler("Login.doSuccess", getRootElement(), Login.doSuccess);
 addEventHandler("Login.doError", getRootElement(), Login.doError);

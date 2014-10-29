@@ -19,8 +19,9 @@ function Client.join()
 	--[[
 		Demarre le téléchargement des fichiers necessaires
 	]]
-	Downloading.init();
+	--Downloading.init();
 	--Login.init();
+	Camera.init();
 
 	--[[
 		Demarre le theme
