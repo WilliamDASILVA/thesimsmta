@@ -33,6 +33,7 @@ Downloading.files = {
 	"ui-button.png",
 	"sample.png",
 	"loading.png",
+	"walking.png",
 	"camera-startpoint.png",
 	"camera-endpoint.png",
 	"rectangle-bottom-left.png",

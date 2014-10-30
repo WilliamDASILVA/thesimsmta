@@ -4,7 +4,7 @@
 
 Camera = {}
 Camera.isLocked = true;
-Camera.moveSencivity = 300; -- 0 = OMFG; 100 = Normal
+Camera.moveSencivity = 200; -- 1 = OMFG; 100 = Normal
 Camera.position = {}
 Camera.zoom = {}
 Camera.zoom.size = 1;
@@ -45,7 +45,6 @@ function Camera.onClick(button, state, x, y, wX, wY, wZ, element)
 		if element == getLocalPlayer() then
 			Camera.isLocked = true;
 		end
-		outputChatBox(getElementType(element));
 	end
 end
 
@@ -151,13 +150,13 @@ end
 ]]
 function Camera.preRender()
 
-	-- debug
+	--[[ debug
 	dxDrawText("CamX:"..math.floor(Camera.position.x), screenX-150, 0, 0,0);
 	dxDrawText("CamY:"..math.floor(Camera.position.y), screenX-150, 10, 0,0);
 	dxDrawText("CamZ:"..math.floor(Camera.position.z), screenX-150, 20, 0,0);
 	dxDrawText("CamLX:"..math.floor(Camera.lookAtX), screenX-150, 30, 0,0);
 	dxDrawText("CamLY:"..math.floor(Camera.lookAtY), screenX-150, 40, 0,0);
-	dxDrawText("CamLZ:"..math.floor(Camera.lookAtZ), screenX-150, 50, 0,0);
+	dxDrawText("CamLZ:"..math.floor(Camera.lookAtZ), screenX-150, 50, 0,0);]]
 
 	-- camera calculs
 	if Camera.isLocked then
