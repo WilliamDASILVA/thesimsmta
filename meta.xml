@@ -20,18 +20,21 @@
 	<!-- Client side -->
 	<script src="client/main.lua" type="client"></script>
 	<script src="client/misc.lua" type="client"></script>
-	
+
 	<script src="client/interface/login.lua" type="client"></script>
 	<script src="client/interface/downloading.lua" type="client"></script>
 	<script src="client/interface/UI.lua" type="client"></script>
 
 	<script src="client/gameplay/camera.lua" type="client"></script>
 	<script src="client/gameplay/mouvement.lua" type="client"></script>
+	<script src="client/gameplay/interaction.lua" type="client"></script>
 	
 	<!-- Server side -->
 	<script src="server/main.lua" type="server"></script>
 	<script src="server/login.lua" type="server"></script>
 	<script src="server/downloading.lua" type="server"></script>
+
+	<script src="server/gameplay/interaction.lua" type="server"></script>
 	
 </meta>
 <!-- Git: www.github.com/WilliamDASILVA/thesimsmta -->

@@ -106,6 +106,18 @@ function Login.init()
 
 end
 
+function Login.quit()
+	removeEventHandler("onClientClick", getRootElement(), Login.click);
+	removeEventHandler("onClientRender", getRootElement(), Login.render);
+	removeEventHandler("onClientRender", getRootElement(), Login.mouseHover);
+	removeEventHandler("onClientCharacter", getRootElement(), Login.onCharacter);
+	removeEventHandler("onClientKey", getRootElement(), Login.onKey);
+
+	Camera.init();
+	Mouvement.init();
+	Interaction.init();
+end
+
 --[[
 			[function] Login.render()
 	
@@ -396,6 +408,7 @@ function Login.doSuccess()
 	Login.elements.loading.startTick = getTickCount();
 	Login.elements.loading.opening = false;
 
+	Login.quit();
 
 end
 

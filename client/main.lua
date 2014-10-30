@@ -23,6 +23,7 @@ function Client.join()
 	--Login.init();
 	Camera.init();
 	Mouvement.init();
+	Interaction.init();
 
 	--[[
 		Demarre le theme

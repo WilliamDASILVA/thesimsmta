@@ -43,7 +43,7 @@ function Mouvement.onClick(button, state, x, y, wX, wY, wZ, element)
 				if not isPedInVehicle(getLocalPlayer()) then
 					local rot = Misc.findRotation(Mouvement.start.x, Mouvement.start.y, Mouvement.endpoint.x, Mouvement.endpoint.y);
 					setPedRotation(getLocalPlayer(), rot);
-					if distance >= 0 and distance <= 10 then
+					if distance >= 0 and distance <= 5 then
 						setPedAnimation(getLocalPlayer(), "ped", "WALK_player");
 						Mouvement.isMoving = true;
 					else

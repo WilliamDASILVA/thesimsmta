@@ -74,6 +74,13 @@ function Misc.dxCreateRectangle(width, height, r, g, b, a)
 	end
 end
 
+
+function echo(s)
+	outputChatBox(s);
+end
+
+
+----
 addCommandHandler("pos",
 function()
 	local x,y,z = getElementPosition(getLocalPlayer())

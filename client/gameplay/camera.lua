@@ -56,43 +56,45 @@ end
 			Return: nil
 ]]
 function Camera.onMouse()
-	Camera.cursor.x, Camera.cursor.y = getCursorPosition();
-	Camera.cursor.x, Camera.cursor.y = Camera.cursor.x*screenX, Camera.cursor.y*screenY;
-	if not Camera.isLocked then
-		if getKeyState("mouse3") then
+	if isCursorShowing() then
+		Camera.cursor.x, Camera.cursor.y = getCursorPosition();
+		Camera.cursor.x, Camera.cursor.y = Camera.cursor.x*screenX, Camera.cursor.y*screenY;
+		if not Camera.isLocked then
+			if getKeyState("mouse3") then
 
-			Camera.vector.x = Camera.cursor.lastX - Camera.cursor.x;
-			Camera.vector.y = Camera.cursor.lastY - Camera.cursor.y;
-			Camera.vector.dist = math.sqrt((Camera.cursor.lastX - Camera.cursor.x)^2 + (Camera.cursor.lastY - Camera.cursor.y)^2);
+				Camera.vector.x = Camera.cursor.lastX - Camera.cursor.x;
+				Camera.vector.y = Camera.cursor.lastY - Camera.cursor.y;
+				Camera.vector.dist = math.sqrt((Camera.cursor.lastX - Camera.cursor.x)^2 + (Camera.cursor.lastY - Camera.cursor.y)^2);
 
-			Camera.position.x = Camera.position.x + (Camera.vector.x/Camera.moveSencivity);
-			Camera.position.y = Camera.position.y - (Camera.vector.x/Camera.moveSencivity);
+				Camera.position.x = Camera.position.x + (Camera.vector.x/Camera.moveSencivity);
+				Camera.position.y = Camera.position.y - (Camera.vector.x/Camera.moveSencivity);
 
-			Camera.position.y = Camera.position.y - (Camera.vector.y/Camera.moveSencivity);
-			Camera.position.x = Camera.position.x - (Camera.vector.y/Camera.moveSencivity);
-			Camera.lookAtX, Camera.lookAtY, Camera.lookAtZ = Camera.position.x-10, Camera.position.y-10, Camera.position.z-10
-			
-
-		else
-			if not isMTAWindowActive() then
-				if(Camera.cursor.x >= 0) and (Camera.cursor.x <= 10)then
-					-- move left
-					Camera.position.x = Camera.position.x + 0.5;
-					Camera.position.y = Camera.position.y - 0.5;
-				elseif(Camera.cursor.x >= screenX-10) and (Camera.cursor.x <= screenX)then
-					-- move right
-					Camera.position.x = Camera.position.x - 0.5;
-					Camera.position.y = Camera.position.y + 0.5;
-				elseif(Camera.cursor.y >= 0) and (Camera.cursor.y <= 10)then
-					-- move top
-					Camera.position.y = Camera.position.y - 0.5;
-					Camera.position.x = Camera.position.x - 0.5;
-				elseif(Camera.cursor.y >= screenY-10) and (Camera.cursor.y <= screenY)then
-					-- move bottom
-					Camera.position.y = Camera.position.y + 0.5;
-					Camera.position.x = Camera.position.x + 0.5;
-				end
+				Camera.position.y = Camera.position.y - (Camera.vector.y/Camera.moveSencivity);
+				Camera.position.x = Camera.position.x - (Camera.vector.y/Camera.moveSencivity);
 				Camera.lookAtX, Camera.lookAtY, Camera.lookAtZ = Camera.position.x-10, Camera.position.y-10, Camera.position.z-10
+				
+
+			else
+				if not isMTAWindowActive() then
+					if(Camera.cursor.x >= 0) and (Camera.cursor.x <= 10)then
+						-- move left
+						Camera.position.x = Camera.position.x + 0.5;
+						Camera.position.y = Camera.position.y - 0.5;
+					elseif(Camera.cursor.x >= screenX-10) and (Camera.cursor.x <= screenX)then
+						-- move right
+						Camera.position.x = Camera.position.x - 0.5;
+						Camera.position.y = Camera.position.y + 0.5;
+					elseif(Camera.cursor.y >= 0) and (Camera.cursor.y <= 10)then
+						-- move top
+						Camera.position.y = Camera.position.y - 0.5;
+						Camera.position.x = Camera.position.x - 0.5;
+					elseif(Camera.cursor.y >= screenY-10) and (Camera.cursor.y <= screenY)then
+						-- move bottom
+						Camera.position.y = Camera.position.y + 0.5;
+						Camera.position.x = Camera.position.x + 0.5;
+					end
+					Camera.lookAtX, Camera.lookAtY, Camera.lookAtZ = Camera.position.x-10, Camera.position.y-10, Camera.position.z-10
+				end
 			end
 		end
 	end
@@ -140,6 +142,17 @@ function Camera.setPosition(x, y, z)
 	end
 end
 
+--[[
+			[function] Camera.setFocusOnPlayer()
+	
+			* Focus the camera on the player *
+	
+			Return: nil
+]]
+function Camera.setFocusOnPlayer()
+	Camera.isLocked = true;
+end
+
 
 --[[
 			[function] Camera.render()
@@ -185,3 +198,5 @@ end
 --[[
 	Event Handlers
 ]]
+addEvent("Camera.setFocusOnPlayer", true);
+addEventHandler("Camera.setFocusOnPlayer", getRootElement(), Camera.setFocusOnPlayer);
