@@ -7,8 +7,8 @@
 Server = {}
 
 for i, v in pairs(getElementsByType("player"))do
-	outputDebugString("TEST..."..getPlayerName(v));
-	spawnPlayer(v, 0,0,10);
+	outputDebugString("Spawning..."..getPlayerName(v));
+	spawnPlayer(v, 0,0,5);
 end
 
 --[[
