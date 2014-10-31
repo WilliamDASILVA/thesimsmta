@@ -19,11 +19,12 @@ function Client.join()
 	--[[
 		Demarre le téléchargement des fichiers necessaires
 	]]
-	--Downloading.init();
+	Downloading.init();
 	--Login.init();
-	Camera.init();
-	Mouvement.init();
-	Interaction.init();
+	--Camera.init();
+	--Mouvement.init();
+	--Interaction.init();
+	--Player.init();
 
 	--[[
 		Demarre le theme

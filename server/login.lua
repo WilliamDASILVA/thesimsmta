@@ -20,6 +20,7 @@ function Login.callBack(result, player)
 			if(result['success'] == "ok")then
 				if(getElementType(player) == "player")then
 					setElementData(player, "userdata", result['data']);
+					setElementData(player, "connected", true);
 					Login.doSuccess(player);
 				end
 			else

@@ -22,7 +22,7 @@ Login.elements.emailInput.y = Login.elements.background.y + 0.1*Login.elements.b
 Login.elements.emailInput.width = 0.3*screenX;
 Login.elements.emailInput.height = 0.03*screenX;
 Login.elements.emailInput.alpha = 255;
-Login.elements.emailInput.content = "william.da.silva@outlook.com";
+Login.elements.emailInput.content = "fatal@thesimsmta.com";
 Login.elements.emailInput.options = {}
 Login.elements.emailText = {}
 Login.elements.emailText.x = Login.elements.background.x + 0.28*Login.elements.background.x;
@@ -113,9 +113,17 @@ function Login.quit()
 	removeEventHandler("onClientCharacter", getRootElement(), Login.onCharacter);
 	removeEventHandler("onClientKey", getRootElement(), Login.onKey);
 
-	Camera.init();
+	Downloading.quit();
+
+	-- create the town around
+	call ( getResourceFromName ( "worldgen" ), "TownInit" )
+
+	Player.init();
 	Mouvement.init();
 	Interaction.init();
+	Camera.init();
+
+	-- 
 end
 
 --[[
