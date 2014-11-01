@@ -33,9 +33,9 @@ end
 ]]
 function Mouvement.onClick(button, state, x, y, wX, wY, wZ, element)
 	if (button == "right") and (state == "down")then
-		if element then
-			cancelEvent();
-		else
+		--if element then
+		--	cancelEvent();
+		--else
 			Mouvement.start.x, Mouvement.start.y, Mouvement.start.z = getElementPosition(getLocalPlayer())
 			local distance = getDistanceBetweenPoints3D(Mouvement.start.x, Mouvement.start.y, Mouvement.start.z, wX, wY, wZ)
 			if distance <= 30 then
@@ -52,7 +52,7 @@ function Mouvement.onClick(button, state, x, y, wX, wY, wZ, element)
 					end
 				end
 			end
-		end
+		--end
 	end
 end
 

@@ -18,6 +18,7 @@ function Player.spawn()
 		local data = getElementData(client, "userdata");
 		if data then
 			spawnPlayer(client, data.posX, data.posY, data.posZ);
+			setElementDimension(client, 1);
 		else
 			outputDebugString("Couldn't spawn the player ("..getPlayerName(client)..") because no data.")
 		end
