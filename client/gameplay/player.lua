@@ -22,6 +22,8 @@ function Player.init()
 		local x, y, z = getElementPosition(v)
 		local marker = createMarker(x, y, z, "arrow", 0.3, 0, 255, 0, 255)
 		local marker2 = createMarker(x, y, z, "arrow", 0.3, 0, 255, 0, 255)
+		setElementDimension(marker,1);
+		setElementDimension(marker2,1);
 		attachElements(marker, v, 0, 0, 2)
 		attachElements(marker2, v, 0, 0, 2.05, 0, 180, 0)
 		

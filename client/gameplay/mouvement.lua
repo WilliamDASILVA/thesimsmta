@@ -8,7 +8,7 @@ Mouvement.endpoint = {}
 Mouvement.pickup = {}
 Mouvement.isMoving = false;
 Mouvement.pickup.size = 1.5;
-Mouvement.pickup.texture = dxCreateTexture("client/files/walking.png");
+Mouvement.pickup.texture = nil;
 
 
 
@@ -20,6 +20,7 @@ Mouvement.pickup.texture = dxCreateTexture("client/files/walking.png");
 			Return: nil
 ]]
 function Mouvement.init()
+	Mouvement.pickup.texture = dxCreateTexture("client/files/walking.png");
 	addEventHandler("onClientClick", getRootElement(), Mouvement.onClick);
 	addEventHandler("onClientRender", getRootElement(), Mouvement.render);
 end
@@ -33,26 +34,22 @@ end
 ]]
 function Mouvement.onClick(button, state, x, y, wX, wY, wZ, element)
 	if (button == "right") and (state == "down")then
-		--if element then
-		--	cancelEvent();
-		--else
-			Mouvement.start.x, Mouvement.start.y, Mouvement.start.z = getElementPosition(getLocalPlayer())
-			local distance = getDistanceBetweenPoints3D(Mouvement.start.x, Mouvement.start.y, Mouvement.start.z, wX, wY, wZ)
-			if distance <= 30 then
-				Mouvement.endpoint.x, Mouvement.endpoint.y, Mouvement.endpoint.z = wX, wY, wZ;
-				if not isPedInVehicle(getLocalPlayer()) then
-					local rot = Misc.findRotation(Mouvement.start.x, Mouvement.start.y, Mouvement.endpoint.x, Mouvement.endpoint.y);
-					setPedRotation(getLocalPlayer(), rot);
-					if distance >= 0 and distance <= 5 then
-						setPedAnimation(getLocalPlayer(), "ped", "WALK_player");
-						Mouvement.isMoving = true;
-					else
-						setPedAnimation(getLocalPlayer(), "ped", "run_player");
-						Mouvement.isMoving = true;
-					end
+		Mouvement.start.x, Mouvement.start.y, Mouvement.start.z = getElementPosition(getLocalPlayer())
+		local distance = getDistanceBetweenPoints3D(Mouvement.start.x, Mouvement.start.y, Mouvement.start.z, wX, wY, wZ)
+		if distance <= 30 then
+			Mouvement.endpoint.x, Mouvement.endpoint.y, Mouvement.endpoint.z = wX, wY, wZ;
+			if not isPedInVehicle(getLocalPlayer()) then
+				local rot = Misc.findRotation(Mouvement.start.x, Mouvement.start.y, Mouvement.endpoint.x, Mouvement.endpoint.y);
+				setPedRotation(getLocalPlayer(), rot);
+				if distance >= 0 and distance <= 5 then
+					setPedAnimation(getLocalPlayer(), "ped", "WALK_player");
+					Mouvement.isMoving = true;
+				else
+					setPedAnimation(getLocalPlayer(), "ped", "run_player");
+					Mouvement.isMoving = true;
 				end
 			end
-		--end
+		end
 	end
 end
 
