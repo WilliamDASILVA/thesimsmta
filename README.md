@@ -12,7 +12,7 @@ Before starting the script, edit the file client/main.lua and make sure, in the 
 <br />
 To run this gamemode, you need a web server (XAMPP, EasyPHP, ...) with an MySQL database.<br />
 Download the website files (www.github.com/WilliamDASILVA/thesimsmta-site) and past it on your web folder.<br />
-Import the SQL database in PHPMyAdmin (www.github.com/WilliamDASILVA/thesimsmta-site/database.sql).<br />
+Import the SQL database in PHPMyAdmin (https://github.com/WilliamDASILVA/thesimsmta-site/blob/master/database.sql).<br />
 Make sure to edit the SQL log-in informations on core/model.php<br />
 <br />
 Import the gamemode files and the worldgen on <b>[gamemodes]/[sims]/sims</b> & <b>[gamemodes]/[sims]/worldgen</b> on your server.<br />
