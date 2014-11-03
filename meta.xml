@@ -29,6 +29,7 @@
 	<script src="client/gameplay/mouvement.lua" type="client"></script>
 	<script src="client/gameplay/interaction.lua" type="client"></script>
 	<script src="client/gameplay/player.lua" type="client"></script>
+	<script src="client/gameplay/building.lua" type="client"></script>
 	
 	<!-- Server side -->
 	<script src="server/main.lua" type="server"></script>

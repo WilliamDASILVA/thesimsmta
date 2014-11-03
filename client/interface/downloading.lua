@@ -73,7 +73,7 @@ Downloading.rendering = true;
 			Return: nill
 ]]
 function Downloading.init()
-	Downloading.doDownload();
+	Downloading.doDownload(Downloading.files);
 
 	fadeCamera(true);
 	setWeather(14);
@@ -95,8 +95,8 @@ function Downloading.quit()
 end
 
 
-function Downloading.doDownload()
-	for i, v in pairs(Downloading.files)do
+function Downloading.doDownload(files)
+	for i, v in pairs(files)do
 		if fileExists("client/files/"..v) == false then
 			table.insert(Downloading.noFiles, v);
 		end
@@ -105,24 +105,33 @@ function Downloading.doDownload()
 		Downloading.progression = 100;
 		Downloading.finish();
 	else
-		triggerServerEvent("Downloading.getFiles", getResourceRootElement(),  Downloading.noFiles);
+		triggerServerEvent("Downloading.getFiles", getResourceRootElement(),  Downloading.noFiles, "finish");
 	end
 end
 
 --[[
-			[function] Downloading.request(filename)
+			[function] Downloading.request(array files)
 	
-			* Télécharger un fichier spécific *
+			* Télécharger des fichiers spécifics *
 	
-			Return: nill
+			Return: nil
 ]]
-function Downloading.request(fileName)
-	if filename then
-		if fileExists("client/files/"..fileName) == false then
-			local file = {"client/files/"..fileName};
-			triggerServerEvent("Downloading.getFiles", getResourceRootElement(), file);
+function Downloading.request(files)
+	if files then
+		local filesToDownload = {}
+		for i, v in pairs(files)do
+			if fileExists("client/files/"..v) == false then
+				table.insert(filesToDownload, v);
+			end
+		end
+		if not(#filesToDownload == 0)then
+			triggerServerEvent("Downloading.getFiles", getResourceRootElement(), filesToDownload, "finishRequest");
 		end
 	end
+end
+
+function Downloading.finishRequest()
+	outputChatBox("DOWNLOADING DONE");
 end
 
 --[[
@@ -132,7 +141,7 @@ end
 	
 			Return: nill
 ]]
-function Downloading.getFileContent(fileContent, fileName)
+function Downloading.getFileContent(fileContent, fileName, functionToCall)
 	if fileContent and fileName then
 		local file = fileCreate("client/files/"..fileName);
 		if file then
@@ -143,7 +152,7 @@ function Downloading.getFileContent(fileContent, fileName)
 			Downloading.counting = Downloading.counting +1;
 			Downloading.progression = math.floor((Downloading.counting * 100)/(#Downloading.noFiles));
 			if(Downloading.progression == 100)then
-				Downloading.finish();
+				_G['Downloading'][functionToCall]();
 			end
 				
 		else

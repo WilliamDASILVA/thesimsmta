@@ -26,6 +26,22 @@ function Mouvement.init()
 end
 
 --[[
+			[function] Mouvement.quit()
+	
+			* Disable the mouvement *
+	
+			Return: nil
+]]
+function Mouvement.quit()
+	-- stop the player mouvement even if he not reach the target
+	setPedAnimation(getLocalPlayer(), false);
+	Mouvement.isMoving = false;
+
+	removeEventHandler("onClientClick", getRootElement(), Mouvement.onClick);
+	removeEventHandler("onClientRender", getRootElement(), Mouvement.render);
+end
+
+--[[
 			[function] Mouvement.onClick(button, state, x, y, wX, wY, wZ, element)
 	
 			* Quand l'utilisateur clique *

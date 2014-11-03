@@ -35,6 +35,18 @@ function Interaction.init()
 	addEventHandler("onClientRender", getRootElement(), Interaction.render);
 end
 
+--[[
+			[function] Interaction.quit()
+	
+			* Quit the interaction *
+	
+			Return: nil
+]]
+function Interaction.quit()
+	removeEventHandler("onClientClick", getRootElement(), Interaction.onClick);
+	removeEventHandler("onClientRender", getRootElement(), Interaction.render);
+end
+
 
 --[[
 			[function] Interaction.onClick(button, state, x, y, wX, wY, wZ, element)
