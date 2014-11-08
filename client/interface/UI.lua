@@ -140,3 +140,35 @@ function UI.normalButton(x, y, width, height, text, alpha, options)
 
 	end
 end
+
+--[[
+			[function] UI.roundButton(x, y, width, icon, alpha, options)
+	
+			* Draw a round button *
+	
+			Return: nil
+]]
+function UI.roundButton(x, y, width, icon, alpha, options)
+	if x and y and width and icon then
+
+		local r, g, b = 220,220,220;
+		if options then
+			if options['hover'] then
+				r, g, b = 255,255,255
+			end
+		end
+
+		-- border
+		if options and options['border'] then
+			if not options['border_size'] then
+				options['border_size'] = 5;
+			end
+
+			dxDrawImage(x - options['border_size'], y - options['border_size'], width + (options['border_size']*2), width + (options['border_size']*2), "client/files/ui-circle.png", 0,0,0,tocolor(r, g, b, alpha));
+		end
+		-- button
+		dxDrawImage(x, y, width, width, "client/files/button_round.png", 0,0,0, tocolor(r, g, b, alpha));
+		-- icon
+		dxDrawImage(x+8, y+8, width-16, width-16, icon, 0,0,0, tocolor(r, g, b, alpha));
+	end
+end

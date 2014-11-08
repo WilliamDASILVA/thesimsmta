@@ -22,7 +22,7 @@ Login.elements.emailInput.y = Login.elements.background.y + 0.1*Login.elements.b
 Login.elements.emailInput.width = 0.3*screenX;
 Login.elements.emailInput.height = 0.03*screenX;
 Login.elements.emailInput.alpha = 255;
-Login.elements.emailInput.content = "fatal@thesimsmta.com";
+Login.elements.emailInput.content = "test@test.com";
 Login.elements.emailInput.options = {}
 Login.elements.emailText = {}
 Login.elements.emailText.x = Login.elements.background.x + 0.28*Login.elements.background.x;
@@ -35,7 +35,7 @@ Login.elements.passwordInput.width = 0.3*screenX;
 Login.elements.passwordInput.height = 0.03*screenX;
 Login.elements.passwordInput.alpha = 255;
 Login.elements.passwordInput.content = "";
-Login.elements.passwordInput.value = "";
+Login.elements.passwordInput.value = "test";
 Login.elements.passwordInput.masked = true;
 Login.elements.passwordInput.options = {}
 Login.elements.passwordText = {}
@@ -122,6 +122,7 @@ function Login.quit()
 	Mouvement.init();
 	Interaction.init();
 	Camera.init();
+	Dashboard.init();
 
 	-- 
 end

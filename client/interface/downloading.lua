@@ -39,7 +39,15 @@ Downloading.files = {
 	"rectangle-bottom-left.png",
 	"rectangle-bottom-right.png",
 	"rectangle-top-left.png",
-	"rectangle-top-right.png"
+	"rectangle-top-right.png",
+	"button_round.png",
+	"icons/players.png",
+	"icons/build.png",
+	"icons/shopping.png",
+	"icons/us.png",
+	"icons/world.png",
+	"icons/more.png"
+
 }
 
 Downloading.noFiles = {}
