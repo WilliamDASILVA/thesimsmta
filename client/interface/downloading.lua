@@ -31,6 +31,7 @@ Downloading.files = {
 	"ui-alu.png",
 	"ui-circle.png",
 	"ui-button.png",
+	"ui-button-rotate.png",
 	"sample.png",
 	"loading.png",
 	"walking.png",

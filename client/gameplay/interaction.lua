@@ -49,7 +49,6 @@ function Interaction.onClick(button, state, x, y, wX, wY, wZ, element)
 			if Interaction.getInteractionsCount() == 0 then
 				Interaction.setOpeningPosition(x, y);
 				Interaction.getInteractions(getElementType(element), element);
-				echo("open interactions");
 			else
 				for i, v in pairs(Interaction.buttons)do
 					if v.x then
@@ -69,12 +68,10 @@ function Interaction.onClick(button, state, x, y, wX, wY, wZ, element)
 					if (x >= v.x and x <= v.x + v.width) and (y >= v.y and y <= v.y+v.height)then
 						_G["Interaction"][v.func](Interaction.getLastElement());
 						Interaction.isShowing = false;
-						echo("2")
 					else
 						Interaction.buttons = {};
 					end
 				else
-					echo("1")
 					Interaction.isShowing = false;
 				end
 			end
@@ -101,8 +98,6 @@ function Interaction.getInteractions(elementType, elementSource)
 			Interaction.isShowing = true;
 			Interaction.lastElement = elementSource;
 		end
-	else
-		outputChatBox("No element type");
 	end
 end
 

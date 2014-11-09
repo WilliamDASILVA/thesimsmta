@@ -25,6 +25,7 @@
 	<script src="client/interface/downloading.lua" type="client"></script>
 	<script src="client/interface/UI.lua" type="client"></script>
 	<script src="client/interface/dashboard.lua" type="client"></script>
+	<script src="client/interface/dashboardfunctions.lua" type="client"></script>
 
 	<script src="client/gameplay/camera.lua" type="client"></script>
 	<script src="client/gameplay/mouvement.lua" type="client"></script>
