@@ -13,7 +13,7 @@ DashboardFunctions = {}
 			Return: nil
 ]]
 function DashboardFunctions.doZoom()
-
+	Camera.doZoom();
 end
 
 --[[
@@ -24,7 +24,7 @@ end
 			Return: nil
 ]]
 function DashboardFunctions.doDezoom()
-
+	Camera.doDezoom();
 end
 
 --[[
@@ -35,7 +35,7 @@ end
 			Return: nil
 ]]
 function DashboardFunctions.doRotationLeft()
-
+	--Camera.doRotation("left");
 end
 
 --[[
@@ -46,7 +46,7 @@ end
 			Return: nil
 ]]
 function DashboardFunctions.doRotationRight()
-	
+	--Camera.doRotation("right");
 end
 
 --[[

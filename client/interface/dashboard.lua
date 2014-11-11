@@ -11,6 +11,12 @@ Dashboard.elements.panel.y = screenY-0.18*screenX;
 Dashboard.elements.panel.width = screenX-(0.05*screenX);
 Dashboard.elements.panel.height = 0.15*screenX;
 
+Dashboard.elements.background = {};
+Dashboard.elements.background.x = Dashboard.elements.panel.x + (0.01*Dashboard.elements.panel.width);
+Dashboard.elements.background.y = Dashboard.elements.panel.y + (0.05*Dashboard.elements.panel.height);
+Dashboard.elements.background.width = 0.18*Dashboard.elements.panel.width;
+Dashboard.elements.background.height = 0.9*Dashboard.elements.panel.height;
+
 Dashboard.elements.homeBtn = {};
 Dashboard.elements.homeBtn.x = Dashboard.elements.panel.x + (0*Dashboard.elements.panel.width);
 Dashboard.elements.homeBtn.y = Dashboard.elements.panel.y + (0*Dashboard.elements.panel.height);
@@ -51,9 +57,9 @@ Dashboard.elements.moreBtn.options = {
 
 -- circle
 Dashboard.elements.aluCircle = {};
-Dashboard.elements.aluCircle.x = Dashboard.elements.panel.x + (0.03*Dashboard.elements.panel.width);
-Dashboard.elements.aluCircle.y = Dashboard.elements.panel.y + (0.1*Dashboard.elements.panel.height);
-Dashboard.elements.aluCircle.width = 0.13*Dashboard.elements.panel.width;
+Dashboard.elements.aluCircle.x = Dashboard.elements.panel.x + (0.05*Dashboard.elements.panel.width);
+Dashboard.elements.aluCircle.y = Dashboard.elements.panel.y + (0.12*Dashboard.elements.panel.height);
+Dashboard.elements.aluCircle.width = 0.11*Dashboard.elements.panel.width;
 
 Dashboard.elements.rotateLeftBtn = {};
 Dashboard.elements.rotateLeftBtn.x = Dashboard.elements.aluCircle.x + (0.08*Dashboard.elements.aluCircle.width);
@@ -62,6 +68,7 @@ Dashboard.elements.rotateLeftBtn.width = 0.25*Dashboard.elements.aluCircle.width
 Dashboard.elements.rotateLeftBtn.height = 0.6*Dashboard.elements.aluCircle.width;
 Dashboard.elements.rotateLeftBtn.type = "square";
 Dashboard.elements.rotateLeftBtn.func = "doRotationLeft";
+Dashboard.elements.rotateLeftBtn.color = 200;
 
 Dashboard.elements.rotateRightBtn = {};
 Dashboard.elements.rotateRightBtn.x = Dashboard.elements.aluCircle.x + (0.67*Dashboard.elements.aluCircle.width);
@@ -70,6 +77,7 @@ Dashboard.elements.rotateRightBtn.width = 0.25*Dashboard.elements.aluCircle.widt
 Dashboard.elements.rotateRightBtn.height = 0.6*Dashboard.elements.aluCircle.width;
 Dashboard.elements.rotateRightBtn.type = "square";
 Dashboard.elements.rotateRightBtn.func = "doRotationRight";
+Dashboard.elements.rotateRightBtn.color = 200;
 
 Dashboard.elements.zoomBtn = {};
 Dashboard.elements.zoomBtn.x = Dashboard.elements.aluCircle.x + (0.225*Dashboard.elements.aluCircle.width);
@@ -78,6 +86,7 @@ Dashboard.elements.zoomBtn.width = 0.56*Dashboard.elements.aluCircle.width;
 Dashboard.elements.zoomBtn.height = 0.23*Dashboard.elements.aluCircle.width;
 Dashboard.elements.zoomBtn.type = "square";
 Dashboard.elements.zoomBtn.func = "doZoom";
+Dashboard.elements.zoomBtn.color = 200;
 
 Dashboard.elements.dezoomBtn = {};
 Dashboard.elements.dezoomBtn.x = Dashboard.elements.aluCircle.x + (0.225*Dashboard.elements.aluCircle.width);
@@ -86,6 +95,7 @@ Dashboard.elements.dezoomBtn.width = 0.56*Dashboard.elements.aluCircle.width;
 Dashboard.elements.dezoomBtn.height = 0.23*Dashboard.elements.aluCircle.width;
 Dashboard.elements.dezoomBtn.type = "square";
 Dashboard.elements.dezoomBtn.func = "doDezoom";
+Dashboard.elements.dezoomBtn.color = 200;
 
 Dashboard.elements.profileImage = {};
 Dashboard.elements.profileImage.x = Dashboard.elements.aluCircle.x + (0.3*Dashboard.elements.aluCircle.width);
@@ -150,6 +160,12 @@ function Dashboard.onClick(button, state, x, y, wX, wY, wZ, element)
 						_G['DashboardFunctions'][btn.func]();
 					end
 				end
+			elseif btn.type == "square" then
+				if (x >= btn.x and x <= btn.x + btn.width) and (y >= btn.y and y <= btn.y + btn.height)then
+					if btn.func then
+						_G['DashboardFunctions'][btn.func]();
+					end
+				end
 			end
 		end
 	end
@@ -185,8 +201,9 @@ function Dashboard.render()
 		elseif btn.type == "square" then
 			if (x >= btn.x and x <= btn.x + btn.width) and (y >= btn.y and y <= btn.y + btn.height)then
 				a, b, c, d, e, f, g, h = btn.x, btn.y, btn.x + btn.width, btn.y, btn.x + btn.width, btn.y + btn.height, btn.x, btn.y + btn.height;
-				
+				btn.color = 255;
 			else
+				btn.color = 200;
 				
 			end
 		end
@@ -196,14 +213,16 @@ function Dashboard.render()
 	dxDrawImage(Dashboard.elements.panel.x, Dashboard.elements.panel.y, 0.15*screenX, 0.15*screenX, "client/files/ui-circle.png");
 	dxDrawRectangle(Dashboard.elements.panel.x+(0.15*screenX/2), Dashboard.elements.panel.y, screenX, 0.15*screenX, tocolor(0,109,180,255));
 
+	dxDrawImage(Dashboard.elements.background.x, Dashboard.elements.background.y, Dashboard.elements.background.width, Dashboard.elements.background.height, "client/files/dashboard_background.png", 0,0,0,tocolor(255,255,255,255));
+
 	dxDrawImage(Dashboard.elements.aluCircle.x, Dashboard.elements.aluCircle.y, Dashboard.elements.aluCircle.width, Dashboard.elements.aluCircle.width, "client/files/ui-alu.png", 0,0,0, tocolor(255,255,255,255));
 	-- rotate-left
-	dxDrawImage(Dashboard.elements.rotateLeftBtn.x, Dashboard.elements.rotateLeftBtn.y, Dashboard.elements.rotateLeftBtn.width, Dashboard.elements.rotateLeftBtn.height, "client/files/ui-button.png", 0,0,0,tocolor(255,255,255,255));
-	dxDrawImage(Dashboard.elements.rotateRightBtn.x, Dashboard.elements.rotateRightBtn.y, Dashboard.elements.rotateRightBtn.width, Dashboard.elements.rotateRightBtn.height, "client/files/ui-button.png", 180,0,0,tocolor(255,255,255,255));
+	dxDrawImage(Dashboard.elements.rotateLeftBtn.x, Dashboard.elements.rotateLeftBtn.y, Dashboard.elements.rotateLeftBtn.width, Dashboard.elements.rotateLeftBtn.height, "client/files/ui-button.png", 0,0,0,tocolor(Dashboard.elements.rotateLeftBtn.color,Dashboard.elements.rotateLeftBtn.color,Dashboard.elements.rotateLeftBtn.color,255));
+	dxDrawImage(Dashboard.elements.rotateRightBtn.x, Dashboard.elements.rotateRightBtn.y, Dashboard.elements.rotateRightBtn.width, Dashboard.elements.rotateRightBtn.height, "client/files/ui-button.png", 180,0,0,tocolor(Dashboard.elements.rotateRightBtn.color,Dashboard.elements.rotateRightBtn.color,Dashboard.elements.rotateRightBtn.color,255));
 	-- zoom
-	dxDrawImage(Dashboard.elements.zoomBtn.x, Dashboard.elements.zoomBtn.y, Dashboard.elements.zoomBtn.width, Dashboard.elements.zoomBtn.height, "client/files/ui-button-rotate.png", 0,0,0,tocolor(255,255,255,255));
+	dxDrawImage(Dashboard.elements.zoomBtn.x, Dashboard.elements.zoomBtn.y, Dashboard.elements.zoomBtn.width, Dashboard.elements.zoomBtn.height, "client/files/ui-button-rotate.png", 0,0,0,tocolor(Dashboard.elements.zoomBtn.color,Dashboard.elements.zoomBtn.color,Dashboard.elements.zoomBtn.color,255));
 	-- dezoom
-	dxDrawImage(Dashboard.elements.dezoomBtn.x, Dashboard.elements.dezoomBtn.y, Dashboard.elements.dezoomBtn.width, Dashboard.elements.dezoomBtn.height, "client/files/ui-button-rotate.png", 180,0,0,tocolor(255,255,255,255));
+	dxDrawImage(Dashboard.elements.dezoomBtn.x, Dashboard.elements.dezoomBtn.y, Dashboard.elements.dezoomBtn.width, Dashboard.elements.dezoomBtn.height, "client/files/ui-button-rotate.png", 180,0,0,tocolor(Dashboard.elements.dezoomBtn.color,Dashboard.elements.dezoomBtn.color,Dashboard.elements.dezoomBtn.color,255));
 
 	-- profile image
 	dxDrawImage(Dashboard.elements.profileImage.x, Dashboard.elements.profileImage.y, Dashboard.elements.profileImage.width, Dashboard.elements.profileImage.width, "client/files/sample.png", 0,0,0,tocolor(255,255,255,255));
@@ -214,6 +233,8 @@ function Dashboard.render()
 	UI.roundButton(Dashboard.elements.worldBtn.x, Dashboard.elements.worldBtn.y, Dashboard.elements.worldBtn.width, "client/files/icons/world.png", 255, Dashboard.elements.worldBtn.options)
 	-- more
 	UI.roundButton(Dashboard.elements.moreBtn.x, Dashboard.elements.moreBtn.y, Dashboard.elements.moreBtn.width, "client/files/icons/more.png", 255, Dashboard.elements.moreBtn.options)
+
+
 
 	dxDrawLine(a, b, c, d, tocolor(255,255,255,255), 2)
 	dxDrawLine(c, d, e, f, tocolor(255,255,255,255), 2)

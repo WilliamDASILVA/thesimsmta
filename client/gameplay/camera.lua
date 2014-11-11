@@ -109,19 +109,41 @@ end
 ]]
 function Camera.onZoom(button, press)
 	if (button == "mouse_wheel_down") and press then
-		if not (Camera.zoom.size >= 10) then
-			Camera.zoom.size = Camera.zoom.size + 0.5;
-		end
+		Camera.doDezoom();
 	elseif (button == "mouse_wheel_up") and press then
-		if not (Camera.zoom.size <= 1) then
-			Camera.zoom.size = Camera.zoom.size - 0.5;
-		end
+		Camera.doZoom();
 	elseif(button == "mouse3") and press then
 		Camera.isLocked = false;
 		Camera.cursor.lastX = Camera.cursor.x;
 		Camera.cursor.lastY = Camera.cursor.y;
 	else
 
+	end
+end
+
+--[[
+			[function] Camera.doDezoom()
+	
+			* Do a dezoom *
+	
+			Return: nil
+]]
+function Camera.doDezoom()
+	if not (Camera.zoom.size >= 10) then
+		Camera.zoom.size = Camera.zoom.size + 0.5;
+	end
+end
+
+--[[
+			[function] Camera.doZoom()
+	
+			* Do a zoom *
+	
+			Return: nil
+]]
+function Camera.doZoom()
+	if not (Camera.zoom.size <= 1) then
+		Camera.zoom.size = Camera.zoom.size - 0.5;
 	end
 end
 

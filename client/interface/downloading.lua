@@ -42,12 +42,15 @@ Downloading.files = {
 	"rectangle-top-left.png",
 	"rectangle-top-right.png",
 	"button_round.png",
+	"dashboard_background.png",
+	"trapeze-active.png",
+	"trapeze-normal.png",
 	"icons/players.png",
 	"icons/build.png",
 	"icons/shopping.png",
 	"icons/us.png",
 	"icons/world.png",
-	"icons/more.png"
+	"icons/more.png",
 
 }
 
