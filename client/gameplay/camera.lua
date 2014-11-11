@@ -41,7 +41,7 @@ end
 			Return: nil
 ]]
 function Camera.onClick(button, state, x, y, wX, wY, wZ, element)
-	if(button == "right" and state == "down")then
+	if(button == "left" and state == "down")then
 		if element == getLocalPlayer() then
 			Camera.isLocked = true;
 		end
@@ -60,7 +60,7 @@ function Camera.onMouse()
 		Camera.cursor.x, Camera.cursor.y = getCursorPosition();
 		Camera.cursor.x, Camera.cursor.y = Camera.cursor.x*screenX, Camera.cursor.y*screenY;
 		if not Camera.isLocked then
-			if getKeyState("mouse3") then
+			if getKeyState("mouse2") then
 
 				Camera.vector.x = Camera.cursor.lastX - Camera.cursor.x;
 				Camera.vector.y = Camera.cursor.lastY - Camera.cursor.y;
@@ -112,7 +112,7 @@ function Camera.onZoom(button, press)
 		Camera.doDezoom();
 	elseif (button == "mouse_wheel_up") and press then
 		Camera.doZoom();
-	elseif(button == "mouse3") and press then
+	elseif(button == "mouse2") and press then
 		Camera.isLocked = false;
 		Camera.cursor.lastX = Camera.cursor.x;
 		Camera.cursor.lastY = Camera.cursor.y;
@@ -204,7 +204,7 @@ function Camera.preRender()
 		setCameraMatrix(Camera.position.x+Camera.zoom.size, Camera.position.y+Camera.zoom.size, Camera.position.z+Camera.zoom.size, Camera.lookAtX+Camera.zoom.size, Camera.lookAtY+Camera.zoom.size, Camera.lookAtZ+Camera.zoom.size, 0,0)
 	end
 
-	if getKeyState("mouse3") then
+	if getKeyState("mouse2") then
 		if Camera.cursor.lastX then
 			setCursorAlpha(0);
 			dxDrawImage(Camera.cursor.lastX-20, Camera.cursor.lastY-20, 40, 40, "client/files/camera-startpoint.png", 0,0,0, tocolor(255,255,255,255));
