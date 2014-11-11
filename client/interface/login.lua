@@ -123,6 +123,7 @@ function Login.quit()
 	Interaction.init();
 	Camera.init();
 	Dashboard.init();
+	Cursor.init();
 
 	-- 
 end

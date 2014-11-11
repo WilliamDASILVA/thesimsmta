@@ -21,7 +21,6 @@ Downloading.files = {
 	"button_right_bottom.png",
 	"button_right_middle.png",
 	"button_right_top.png",
-	"camera_cursor.png",
 	"progress-back-center.png",
 	"progress-back-left.png",
 	"progress-back-right.png",
@@ -51,6 +50,10 @@ Downloading.files = {
 	"icons/us.png",
 	"icons/world.png",
 	"icons/more.png",
+	"cursor/normal.png",
+	"cursor/impossible.png",
+	"cursor/walk.png",
+	"cursor/interaction.png",
 
 }
 

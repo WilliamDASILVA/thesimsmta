@@ -206,14 +206,14 @@ function Camera.preRender()
 
 	if getKeyState("mouse2") then
 		if Camera.cursor.lastX then
-			setCursorAlpha(0);
+			Cursor.showCursor(false);
 			dxDrawImage(Camera.cursor.lastX-20, Camera.cursor.lastY-20, 40, 40, "client/files/camera-startpoint.png", 0,0,0, tocolor(255,255,255,255));
 			if Camera.vector.dist and Camera.vector.dist >= 20 then
 				dxDrawImage(Camera.cursor.x-40, Camera.cursor.y-20, 80, 40, "client/files/camera-endpoint.png", Misc.findRotation(Camera.cursor.x, Camera.cursor.y, Camera.cursor.lastX, Camera.cursor.lastY), 0,0, tocolor(255,255,255,255));
 			end
 		end
 	else
-		setCursorAlpha(255);
+		Cursor.showCursor(true);
 	end
 end
 
