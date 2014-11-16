@@ -181,34 +181,40 @@ end
 ]]
 function Dashboard.render()
 	-- hover
-	local x, y = getCursorPosition()
-	x, y = x*screenX, y*screenY;
-	local a, b, c, d, e, f, g, h = 0,0,0,0,0,0,0,0;
+	if isCursorShowing() then
 
-	for i, btn in ipairs(Dashboard.buttons)do
-		if btn.type == "round" then
-			local centerX, centerY = btn.x + (btn.width/2), btn.y + (btn.width/2);
-			local distance = getDistanceBetweenPoints2D(x, y, centerX, centerY);
-			if distance <= (btn.width/2) then
-				if btn.options then
-					btn.options['hover'] = true;
+
+		local x, y = getCursorPosition()
+		x, y = x*screenX, y*screenY;
+		local a, b, c, d, e, f, g, h = 0,0,0,0,0,0,0,0;
+
+		for i, btn in ipairs(Dashboard.buttons)do
+			if btn.type == "round" then
+				local centerX, centerY = btn.x + (btn.width/2), btn.y + (btn.width/2);
+				local distance = getDistanceBetweenPoints2D(x, y, centerX, centerY);
+				if distance <= (btn.width/2) then
+					if btn.options then
+						btn.options['hover'] = true;
+						Cursor.setCursor("normal");
+					end
+				else
+					if btn.options then
+						btn.options['hover'] = false;
+					end
 				end
-			else
-				if btn.options then
-					btn.options['hover'] = false;
+			elseif btn.type == "square" then
+				if (x >= btn.x and x <= btn.x + btn.width) and (y >= btn.y and y <= btn.y + btn.height)then
+					a, b, c, d, e, f, g, h = btn.x, btn.y, btn.x + btn.width, btn.y, btn.x + btn.width, btn.y + btn.height, btn.x, btn.y + btn.height;
+					btn.color = 255;
+					Cursor.setCursor("normal");
+				else
+					btn.color = 200;
+					
 				end
-			end
-		elseif btn.type == "square" then
-			if (x >= btn.x and x <= btn.x + btn.width) and (y >= btn.y and y <= btn.y + btn.height)then
-				a, b, c, d, e, f, g, h = btn.x, btn.y, btn.x + btn.width, btn.y, btn.x + btn.width, btn.y + btn.height, btn.x, btn.y + btn.height;
-				btn.color = 255;
-			else
-				btn.color = 200;
-				
 			end
 		end
+		
 	end
-	
 
 	dxDrawImage(Dashboard.elements.panel.x, Dashboard.elements.panel.y, 0.15*screenX, 0.15*screenX, "client/files/ui-circle.png");
 	dxDrawRectangle(Dashboard.elements.panel.x+(0.15*screenX/2), Dashboard.elements.panel.y, screenX, 0.15*screenX, tocolor(0,109,180,255));
@@ -236,8 +242,8 @@ function Dashboard.render()
 
 
 
-	dxDrawLine(a, b, c, d, tocolor(255,255,255,255), 2)
+	--[[dxDrawLine(a, b, c, d, tocolor(255,255,255,255), 2)
 	dxDrawLine(c, d, e, f, tocolor(255,255,255,255), 2)
 	dxDrawLine(e, f, g, h, tocolor(255,255,255,255), 2)
-	dxDrawLine(g, h, a, b, tocolor(255,255,255,255), 2)
+	dxDrawLine(g, h, a, b, tocolor(255,255,255,255), 2)]]
 end

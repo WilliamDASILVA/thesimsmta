@@ -11,6 +11,8 @@ Cursor.cursors = {
 };
 Cursor.currentCursor = "normal";
 Cursor.isCursorShowing = true;
+Cursor.isCursorUI = false;
+Cursor.isFixed = false;
 
 --[[
 			[function] Cursor.init()
@@ -20,6 +22,7 @@ Cursor.isCursorShowing = true;
 			Return: nil
 ]]
 function Cursor.init()
+	showCursor(true);
 	setCursorAlpha(0);
 	addEventHandler("onClientRender", getRootElement(), Cursor.render);
 end
@@ -60,6 +63,39 @@ function Cursor.showCursor(show)
 end
 
 --[[
+			[function] Cursor.isCursorOnUI()
+	
+			* Check if the cursor is on a UI or not *
+	
+			Return: true, false
+]]
+function Cursor.isCursorOnUI()
+	return Cursor.isCursorUI;
+end
+
+--[[
+			[function] Cursor.setOnUI(bool)
+	
+			* Set the cursor on a UI or not *
+	
+			Return: nil
+]]
+function Cursor.setOnUI(enabled)
+	Cursor.isCursorUI = enabled;
+end
+
+--[[
+			[function] Cursor.setFixe(bool)
+	
+			* Set if the cursor change automatically or not *
+	
+			Return: nil
+]]
+function Cursor.setFixe(bool)
+	Cursor.isFixed = bool;
+end
+
+--[[
 			[function] Cursor.render()
 	
 			* Render *
@@ -72,23 +108,25 @@ function Cursor.render()
 		cursorX, cursorY = cursorX*screenX, cursorY*screenY;
 
 		-- checking for elements or other stuff
-		local w, h = guiGetScreenSize ()
-		local tx, ty, tz = getWorldFromScreenPosition (cursorX, cursorY, 50 )
-		local px, py, pz = getCameraMatrix()
-		hit, x, y, z, elementHit = processLineOfSight ( px, py, pz, tx, ty, tz )
-		if hit then
-		    if elementHit then
-		        if getElementType(elementHit) == "object" and getElementData(elementHit, "type") == "ground" then
-		        	Cursor.setCursor("walk");
+		if not Cursor.isFixed then
+			local w, h = guiGetScreenSize ()
+			local tx, ty, tz = getWorldFromScreenPosition (cursorX, cursorY, 50 )
+			local px, py, pz = getCameraMatrix()
+			hit, x, y, z, elementHit = processLineOfSight ( px, py, pz, tx, ty, tz )
+			if hit then
+			    if elementHit then
+			        if getElementType(elementHit) == "object" and getElementData(elementHit, "type") == "ground" then
+			        	Cursor.setCursor("walk");
 
-		        elseif getElementType(elementHit) == "player" then
-		        	Cursor.setCursor("interaction");
-		        else
-		        	Cursor.setCursor("normal");
-		        end
-		    end
-		else
-			Cursor.setCursor("impossible");
+			        elseif getElementType(elementHit) == "player" then
+			        	Cursor.setCursor("interaction");
+			        else
+			        	Cursor.setCursor("normal");
+			        end
+			    end
+			else
+				Cursor.setCursor("impossible");
+			end
 		end
 
 		-- rendering

@@ -96,7 +96,6 @@ Login.rendering = true;
 			Return: nill
 ]]
 function Login.init()
-	showCursor(true);
 
 	addEventHandler("onClientClick", getRootElement(), Login.click);
 	addEventHandler("onClientRender", getRootElement(), Login.render);
@@ -104,6 +103,9 @@ function Login.init()
 	addEventHandler("onClientCharacter", getRootElement(), Login.onCharacter);
 	addEventHandler("onClientKey", getRootElement(), Login.onKey);
 
+	Cursor.init();
+	Cursor.setCursor("normal");
+	Cursor.setFixe(true);
 end
 
 function Login.quit()
@@ -123,7 +125,8 @@ function Login.quit()
 	Interaction.init();
 	Camera.init();
 	Dashboard.init();
-	Cursor.init();
+
+	Cursor.setFixe(false);
 
 	-- 
 end
@@ -207,8 +210,10 @@ function Login.mouseHover()
 	cursorY = cursorY*screenY;
 	if(cursorX >= Login.elements.button.x and cursorX <= Login.elements.button.x+Login.elements.button.w and cursorY >= Login.elements.button.y and cursorY <= Login.elements.button.y + Login.elements.button.h)then
 		Login.elements.button.options['hover'] = true;
+		Cursor.isCursorOnUI(true);
 	else
 		Login.elements.button.options['hover'] = false;
+		Cursor.isCursorOnUI(false);
 	end
 end
 
