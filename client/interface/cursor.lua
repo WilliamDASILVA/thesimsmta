@@ -63,13 +63,13 @@ function Cursor.showCursor(show)
 end
 
 --[[
-			[function] Cursor.isCursorOnUI()
+			[function] Cursor.isOnUI()
 	
 			* Check if the cursor is on a UI or not *
 	
 			Return: true, false
 ]]
-function Cursor.isCursorOnUI()
+function Cursor.isOnUI()
 	return Cursor.isCursorUI;
 end
 
@@ -82,6 +82,13 @@ end
 ]]
 function Cursor.setOnUI(enabled)
 	Cursor.isCursorUI = enabled;
+
+	if enabled then
+		Cursor.setCursor("normal");
+		Cursor.setFixe(true);
+	else
+		Cursor.setFixe(false);
+	end
 end
 
 --[[

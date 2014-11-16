@@ -35,19 +35,21 @@ end
 ]]
 function Mouvement.onClick(button, state, x, y, wX, wY, wZ, element)
 	if (button == "left") and (state == "down")then
-		Mouvement.start.x, Mouvement.start.y, Mouvement.start.z = getElementPosition(getLocalPlayer())
-		local distance = getDistanceBetweenPoints3D(Mouvement.start.x, Mouvement.start.y, Mouvement.start.z, wX, wY, wZ)
-		if distance <= 30 then
-			Mouvement.endpoint.x, Mouvement.endpoint.y, Mouvement.endpoint.z = wX, wY, wZ;
-			if not isPedInVehicle(getLocalPlayer()) then
-				local rot = Misc.findRotation(Mouvement.start.x, Mouvement.start.y, Mouvement.endpoint.x, Mouvement.endpoint.y);
-				setPedRotation(getLocalPlayer(), rot);
-				if distance >= 0 and distance <= 5 then
-					setPedAnimation(getLocalPlayer(), "ped", "WALK_player");
-					Mouvement.isMoving = true;
-				else
-					setPedAnimation(getLocalPlayer(), "ped", "run_player");
-					Mouvement.isMoving = true;
+		if not Cursor.isOnUI() then
+			Mouvement.start.x, Mouvement.start.y, Mouvement.start.z = getElementPosition(getLocalPlayer())
+			local distance = getDistanceBetweenPoints3D(Mouvement.start.x, Mouvement.start.y, Mouvement.start.z, wX, wY, wZ)
+			if distance <= 30 then
+				Mouvement.endpoint.x, Mouvement.endpoint.y, Mouvement.endpoint.z = wX, wY, wZ;
+				if not isPedInVehicle(getLocalPlayer()) then
+					local rot = Misc.findRotation(Mouvement.start.x, Mouvement.start.y, Mouvement.endpoint.x, Mouvement.endpoint.y);
+					setPedRotation(getLocalPlayer(), rot);
+					if distance >= 0 and distance <= 5 then
+						setPedAnimation(getLocalPlayer(), "ped", "WALK_player");
+						Mouvement.isMoving = true;
+					else
+						setPedAnimation(getLocalPlayer(), "ped", "run_player");
+						Mouvement.isMoving = true;
+					end
 				end
 			end
 		end

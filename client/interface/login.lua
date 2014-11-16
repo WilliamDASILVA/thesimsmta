@@ -214,10 +214,8 @@ function Login.mouseHover()
 	cursorY = cursorY*screenY;
 	if(cursorX >= Login.elements.button.x and cursorX <= Login.elements.button.x+Login.elements.button.w and cursorY >= Login.elements.button.y and cursorY <= Login.elements.button.y + Login.elements.button.h)then
 		Login.elements.button.options['hover'] = true;
-		Cursor.isCursorOnUI(true);
 	else
 		Login.elements.button.options['hover'] = false;
-		Cursor.isCursorOnUI(false);
 	end
 end
 

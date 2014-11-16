@@ -211,7 +211,6 @@ function Dashboard.render()
 					if distance <= (btn.width/2) then
 						if btn.options then
 							btn.options['hover'] = true;
-							Cursor.setCursor("normal");
 						end
 					else
 						if btn.options then
@@ -222,12 +221,31 @@ function Dashboard.render()
 					if (x >= btn.x and x <= btn.x + btn.width) and (y >= btn.y and y <= btn.y + btn.height)then
 						a, b, c, d, e, f, g, h = btn.x, btn.y, btn.x + btn.width, btn.y, btn.x + btn.width, btn.y + btn.height, btn.x, btn.y + btn.height;
 						btn.color = 255;
-						Cursor.setCursor("normal");
 					else
 						btn.color = 200;
 						
 					end
 				end
+			end
+
+			-- cursor on UI
+			local totalHover = 0;
+			for i, btn in ipairs(Dashboard.buttons)do
+				if btn.options then
+					if btn.options['hover'] == true then
+						totalHover = totalHover+1;
+					end
+				else
+					if btn.color == 255 then
+						totalHover = totalHover+1;
+					end
+				end
+			end
+
+			if totalHover == 0 then
+				Cursor.setOnUI(false);
+			else
+				Cursor.setOnUI(true);
 			end
 			
 		end
