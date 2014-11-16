@@ -3,6 +3,8 @@
 ]]
 
 Dashboard = {}
+Dashboard.isEnabled = false;
+
 Dashboard.elements = {}
 
 Dashboard.elements.panel = {}
@@ -126,8 +128,19 @@ Dashboard.buttons = {
 function Dashboard.init()
 
 	-- events
-	addEventHandler("onClientClick", getRootElement(), Dashboard.onClick);
 	addEventHandler("onClientRender", getRootElement(), Dashboard.render);
+end
+
+--[[
+			[function] Dashboard.enable()
+	
+			* Enable the dashboard *
+	
+			Return: nil
+]]
+function Dashboard.enable()
+	Dashboard.isEnabled = true;
+	addEventHandler("onClientClick", getRootElement(), Dashboard.onClick);
 end
 
 --[[
@@ -138,7 +151,9 @@ end
 			Return: nil
 ]]
 function Dashboard.quit()
+	Dashboard.isEnabled = false;
 	removeEventHandler("onClientRender", getRootElement(), Dashboard.render);
+	removeEventHandler("onClientClick", getRootElement(), Dashboard.onClick);
 end
 
 
@@ -180,70 +195,72 @@ end
 			Return: nil
 ]]
 function Dashboard.render()
-	-- hover
-	if isCursorShowing() then
+	if Dashboard.isEnabled then
+		-- hover
+		if isCursorShowing() then
 
 
-		local x, y = getCursorPosition()
-		x, y = x*screenX, y*screenY;
-		local a, b, c, d, e, f, g, h = 0,0,0,0,0,0,0,0;
+			local x, y = getCursorPosition()
+			x, y = x*screenX, y*screenY;
+			local a, b, c, d, e, f, g, h = 0,0,0,0,0,0,0,0;
 
-		for i, btn in ipairs(Dashboard.buttons)do
-			if btn.type == "round" then
-				local centerX, centerY = btn.x + (btn.width/2), btn.y + (btn.width/2);
-				local distance = getDistanceBetweenPoints2D(x, y, centerX, centerY);
-				if distance <= (btn.width/2) then
-					if btn.options then
-						btn.options['hover'] = true;
+			for i, btn in ipairs(Dashboard.buttons)do
+				if btn.type == "round" then
+					local centerX, centerY = btn.x + (btn.width/2), btn.y + (btn.width/2);
+					local distance = getDistanceBetweenPoints2D(x, y, centerX, centerY);
+					if distance <= (btn.width/2) then
+						if btn.options then
+							btn.options['hover'] = true;
+							Cursor.setCursor("normal");
+						end
+					else
+						if btn.options then
+							btn.options['hover'] = false;
+						end
+					end
+				elseif btn.type == "square" then
+					if (x >= btn.x and x <= btn.x + btn.width) and (y >= btn.y and y <= btn.y + btn.height)then
+						a, b, c, d, e, f, g, h = btn.x, btn.y, btn.x + btn.width, btn.y, btn.x + btn.width, btn.y + btn.height, btn.x, btn.y + btn.height;
+						btn.color = 255;
 						Cursor.setCursor("normal");
+					else
+						btn.color = 200;
+						
 					end
-				else
-					if btn.options then
-						btn.options['hover'] = false;
-					end
-				end
-			elseif btn.type == "square" then
-				if (x >= btn.x and x <= btn.x + btn.width) and (y >= btn.y and y <= btn.y + btn.height)then
-					a, b, c, d, e, f, g, h = btn.x, btn.y, btn.x + btn.width, btn.y, btn.x + btn.width, btn.y + btn.height, btn.x, btn.y + btn.height;
-					btn.color = 255;
-					Cursor.setCursor("normal");
-				else
-					btn.color = 200;
-					
 				end
 			end
+			
 		end
-		
+
+		dxDrawImage(Dashboard.elements.panel.x, Dashboard.elements.panel.y, 0.15*screenX, 0.15*screenX, "client/files/ui-circle.png");
+		dxDrawRectangle(Dashboard.elements.panel.x+(0.15*screenX/2), Dashboard.elements.panel.y, screenX, 0.15*screenX, tocolor(0,109,180,255));
+
+		dxDrawImage(Dashboard.elements.background.x, Dashboard.elements.background.y, Dashboard.elements.background.width, Dashboard.elements.background.height, "client/files/dashboard_background.png", 0,0,0,tocolor(255,255,255,255));
+
+		dxDrawImage(Dashboard.elements.aluCircle.x, Dashboard.elements.aluCircle.y, Dashboard.elements.aluCircle.width, Dashboard.elements.aluCircle.width, "client/files/ui-alu.png", 0,0,0, tocolor(255,255,255,255));
+		-- rotate-left
+		dxDrawImage(Dashboard.elements.rotateLeftBtn.x, Dashboard.elements.rotateLeftBtn.y, Dashboard.elements.rotateLeftBtn.width, Dashboard.elements.rotateLeftBtn.height, "client/files/ui-button.png", 0,0,0,tocolor(Dashboard.elements.rotateLeftBtn.color,Dashboard.elements.rotateLeftBtn.color,Dashboard.elements.rotateLeftBtn.color,255));
+		dxDrawImage(Dashboard.elements.rotateRightBtn.x, Dashboard.elements.rotateRightBtn.y, Dashboard.elements.rotateRightBtn.width, Dashboard.elements.rotateRightBtn.height, "client/files/ui-button.png", 180,0,0,tocolor(Dashboard.elements.rotateRightBtn.color,Dashboard.elements.rotateRightBtn.color,Dashboard.elements.rotateRightBtn.color,255));
+		-- zoom
+		dxDrawImage(Dashboard.elements.zoomBtn.x, Dashboard.elements.zoomBtn.y, Dashboard.elements.zoomBtn.width, Dashboard.elements.zoomBtn.height, "client/files/ui-button-rotate.png", 0,0,0,tocolor(Dashboard.elements.zoomBtn.color,Dashboard.elements.zoomBtn.color,Dashboard.elements.zoomBtn.color,255));
+		-- dezoom
+		dxDrawImage(Dashboard.elements.dezoomBtn.x, Dashboard.elements.dezoomBtn.y, Dashboard.elements.dezoomBtn.width, Dashboard.elements.dezoomBtn.height, "client/files/ui-button-rotate.png", 180,0,0,tocolor(Dashboard.elements.dezoomBtn.color,Dashboard.elements.dezoomBtn.color,Dashboard.elements.dezoomBtn.color,255));
+
+		-- profile image
+		dxDrawImage(Dashboard.elements.profileImage.x, Dashboard.elements.profileImage.y, Dashboard.elements.profileImage.width, Dashboard.elements.profileImage.width, "client/files/sample.png", 0,0,0,tocolor(255,255,255,255));
+
+		-- me
+		UI.roundButton(Dashboard.elements.homeBtn.x, Dashboard.elements.homeBtn.y, Dashboard.elements.homeBtn.width, "client/files/icons/players.png", 255, Dashboard.elements.homeBtn.options)
+		-- world
+		UI.roundButton(Dashboard.elements.worldBtn.x, Dashboard.elements.worldBtn.y, Dashboard.elements.worldBtn.width, "client/files/icons/world.png", 255, Dashboard.elements.worldBtn.options)
+		-- more
+		UI.roundButton(Dashboard.elements.moreBtn.x, Dashboard.elements.moreBtn.y, Dashboard.elements.moreBtn.width, "client/files/icons/more.png", 255, Dashboard.elements.moreBtn.options)
+
+
+
+		--[[dxDrawLine(a, b, c, d, tocolor(255,255,255,255), 2)
+		dxDrawLine(c, d, e, f, tocolor(255,255,255,255), 2)
+		dxDrawLine(e, f, g, h, tocolor(255,255,255,255), 2)
+		dxDrawLine(g, h, a, b, tocolor(255,255,255,255), 2)]]
 	end
-
-	dxDrawImage(Dashboard.elements.panel.x, Dashboard.elements.panel.y, 0.15*screenX, 0.15*screenX, "client/files/ui-circle.png");
-	dxDrawRectangle(Dashboard.elements.panel.x+(0.15*screenX/2), Dashboard.elements.panel.y, screenX, 0.15*screenX, tocolor(0,109,180,255));
-
-	dxDrawImage(Dashboard.elements.background.x, Dashboard.elements.background.y, Dashboard.elements.background.width, Dashboard.elements.background.height, "client/files/dashboard_background.png", 0,0,0,tocolor(255,255,255,255));
-
-	dxDrawImage(Dashboard.elements.aluCircle.x, Dashboard.elements.aluCircle.y, Dashboard.elements.aluCircle.width, Dashboard.elements.aluCircle.width, "client/files/ui-alu.png", 0,0,0, tocolor(255,255,255,255));
-	-- rotate-left
-	dxDrawImage(Dashboard.elements.rotateLeftBtn.x, Dashboard.elements.rotateLeftBtn.y, Dashboard.elements.rotateLeftBtn.width, Dashboard.elements.rotateLeftBtn.height, "client/files/ui-button.png", 0,0,0,tocolor(Dashboard.elements.rotateLeftBtn.color,Dashboard.elements.rotateLeftBtn.color,Dashboard.elements.rotateLeftBtn.color,255));
-	dxDrawImage(Dashboard.elements.rotateRightBtn.x, Dashboard.elements.rotateRightBtn.y, Dashboard.elements.rotateRightBtn.width, Dashboard.elements.rotateRightBtn.height, "client/files/ui-button.png", 180,0,0,tocolor(Dashboard.elements.rotateRightBtn.color,Dashboard.elements.rotateRightBtn.color,Dashboard.elements.rotateRightBtn.color,255));
-	-- zoom
-	dxDrawImage(Dashboard.elements.zoomBtn.x, Dashboard.elements.zoomBtn.y, Dashboard.elements.zoomBtn.width, Dashboard.elements.zoomBtn.height, "client/files/ui-button-rotate.png", 0,0,0,tocolor(Dashboard.elements.zoomBtn.color,Dashboard.elements.zoomBtn.color,Dashboard.elements.zoomBtn.color,255));
-	-- dezoom
-	dxDrawImage(Dashboard.elements.dezoomBtn.x, Dashboard.elements.dezoomBtn.y, Dashboard.elements.dezoomBtn.width, Dashboard.elements.dezoomBtn.height, "client/files/ui-button-rotate.png", 180,0,0,tocolor(Dashboard.elements.dezoomBtn.color,Dashboard.elements.dezoomBtn.color,Dashboard.elements.dezoomBtn.color,255));
-
-	-- profile image
-	dxDrawImage(Dashboard.elements.profileImage.x, Dashboard.elements.profileImage.y, Dashboard.elements.profileImage.width, Dashboard.elements.profileImage.width, "client/files/sample.png", 0,0,0,tocolor(255,255,255,255));
-
-	-- me
-	UI.roundButton(Dashboard.elements.homeBtn.x, Dashboard.elements.homeBtn.y, Dashboard.elements.homeBtn.width, "client/files/icons/players.png", 255, Dashboard.elements.homeBtn.options)
-	-- world
-	UI.roundButton(Dashboard.elements.worldBtn.x, Dashboard.elements.worldBtn.y, Dashboard.elements.worldBtn.width, "client/files/icons/world.png", 255, Dashboard.elements.worldBtn.options)
-	-- more
-	UI.roundButton(Dashboard.elements.moreBtn.x, Dashboard.elements.moreBtn.y, Dashboard.elements.moreBtn.width, "client/files/icons/more.png", 255, Dashboard.elements.moreBtn.options)
-
-
-
-	--[[dxDrawLine(a, b, c, d, tocolor(255,255,255,255), 2)
-	dxDrawLine(c, d, e, f, tocolor(255,255,255,255), 2)
-	dxDrawLine(e, f, g, h, tocolor(255,255,255,255), 2)
-	dxDrawLine(g, h, a, b, tocolor(255,255,255,255), 2)]]
 end

@@ -103,6 +103,9 @@ function Login.init()
 	addEventHandler("onClientCharacter", getRootElement(), Login.onCharacter);
 	addEventHandler("onClientKey", getRootElement(), Login.onKey);
 
+	-- we create te dashboard before the cursor, so, the cursor is hover the dashboard
+	Dashboard.init();
+
 	Cursor.init();
 	Cursor.setCursor("normal");
 	Cursor.setFixe(true);
@@ -124,7 +127,8 @@ function Login.quit()
 	Mouvement.init();
 	Interaction.init();
 	Camera.init();
-	Dashboard.init();
+	-- we enable it
+	Dashboard.enable();
 
 	Cursor.setFixe(false);
 
