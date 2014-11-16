@@ -41,7 +41,7 @@ end
 			Return: nil
 ]]
 function Camera.onClick(button, state, x, y, wX, wY, wZ, element)
-	if(button == "left" and state == "down")then
+	if(button == "right" and state == "down")then
 		if element == getLocalPlayer() then
 			Camera.isLocked = true;
 		end
